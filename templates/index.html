@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Plant Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/rice-leaf-logo.svg') }}" alt="Rice Leaf Logo" class="logo">
+            <h1>Rice Plant Disease Detection</h1>
+        </div>
+        <div class="theme-toggle">
+            <button id="themeToggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#" onclick="toggleAbout()">About</a></li>
+            <li><a href="#" onclick="toggleDiseases()">Diseases</a></li>
+            <li><a href="#" onclick="toggleHowItWorks()">How It Works</a></li>
+            <li><a href="#" onclick="toggleContact()">Contact</a></li>
+            <li><a href="{{ url_for('analyze') }}" class="analyze-btn">Analyze Your Crop</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Protecting Rice Crops Worldwide</h2>
+            <p>Using advanced AI technology to detect and prevent rice plant diseases</p>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Protect Your Rice Crop?</h2>
+            <p>Use our advanced AI technology to detect diseases early and save your harvest</p>
+            <a href="{{ url_for('analyze') }}" class="cta-button">Analyze Your Crop Now</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <div id="aboutSection" class="about-section" style="display: none;">
+        <div class="about-content">
+            <h2>About Our Technology</h2>
+            <div class="about-text">
+                <p>Our Rice Plant Disease Detection system uses advanced AI technology to identify diseases in rice plants. We combine deep learning with traditional machine learning to provide accurate results.</p>
+                
+                <h3>Currently Detected Diseases</h3>
+                <ul>
+                    <li><strong>Bacterial Blight:</strong> A bacterial disease that causes water-soaked lesions on leaves</li>
+                    <li><strong>Brown Spot:</strong> A fungal disease that causes brown spots on leaves and grains</li>
+                    <li><strong>Leaf blast:</strong> A fungal disease that causes black powdery spots on leaves</li>
+                </ul>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Important Notice:</strong> This is an AI-based suggestion system. Please consult with agricultural experts or plant pathologists before applying any treatment to your crops. The system is continuously learning and more disease classes are in the training phase.</p>
+                </div>
+
+                <h3>Algorithms Used</h3>
+                <ul>
+                    <li><strong>VGG16:</strong> Deep learning model for feature extraction</li>
+                    <li><strong>XGBoost:</strong> Gradient boosting for classification</li>
+                    <li><strong>CNN:</strong> Convolutional Neural Networks for image processing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diseases Section -->
+    <div id="diseasesSection" class="modal-section" style="display: none;">
+        <div class="modal-content">
+            <h2>Common Rice Plant Diseases</h2>
+            <div class="disease-grid">
+                <div class="disease-card">
+                    <img src="{{ url_for('static', filename='images/bacterialblight.jpg') }}" alt="Bacterial Blight">
+                    <h3>Bacterial Blight</h3>
+                    <p>A bacterial disease that causes water-soaked lesions on leaves. It can spread rapidly in wet conditions.</p>
+                    <ul>
+                        <li>Water-soaked lesions on leaves</li>
+                        <li>Yellow to white streaks</li>
+                        <li>Wilting of leaves</li>
+                    </ul>
+                </div>
+                <div class="disease-card">
+                    <img src="{{ url_for('static', filename='images/brownspot.jpg') }}" alt="Brown Spot">
+                    <h3>Brown Spot</h3>
+                    <p>A fungal disease that causes brown spots on leaves and grains. It can reduce yield significantly.</p>
+                    <ul>
+                        <li>Brown spots on leaves</li>
+                        <li>Spots on grains</li>
+                        <li>Reduced grain quality</li>
+                    </ul>
+                </div>
+                <div class="disease-card">
+                    <img src="{{ url_for('static', filename='images/leafsmut.jpg') }}" alt="Leaf blast">
+                    <h3>Leaf blast</h3>
+                    <p>A fungal disease that causes black powdery spots on leaves. It can affect photosynthesis and reduce yield.</p>
+                    <ul>
+                        <li>Black powdery spots</li>
+                        <li>Leaf discoloration</li>
+                        <li>Reduced photosynthesis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="howItWorksSection" class="modal-section" style="display: none;">
+        <div class="modal-content">
+            <h2>How Our Technology Works</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Image Upload</h3>
+                    <p>Upload a clear image of your rice plant leaf showing the symptoms.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our AI model processes the image using advanced computer vision techniques.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Disease Detection</h3>
+                    <p>The system identifies patterns and matches them with known disease characteristics.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Results</h3>
+                    <p>Get detailed analysis results showing the detected disease and its characteristics.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contactSection" class="modal-section" style="display: none;">
+        <div class="modal-content">
+            <h2>Contact Us</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>support@Agrotech.com</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <h3>Phone</h3>
+                    <p>+919880357198</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Address</h3>
+                    <p>Agrotech<br>Hubli City,580030</p>
+                </div>
+            </div>
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>We are dedicated to helping farmers protect their rice crops through advanced AI technology and disease detection.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Rice Plant Disease Detection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 
