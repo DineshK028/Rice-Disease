@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple Leaf -->
+    <path d="M25 5C15 5 5 15 5 25C5 35 15 45 25 45C35 45 45 35 45 25C45 15 35 5 25 5Z" fill="#4CAF50"/>
+    <path d="M25 10C18 10 10 18 10 25C10 32 18 40 25 40C32 40 40 32 40 25C40 18 32 10 25 10Z" fill="#45a049"/>
+    <path d="M25 15C21 15 15 21 15 25C15 29 21 35 25 35C29 35 35 29 35 25C35 21 29 15 25 15Z" fill="#388E3C"/>
+</svg> 

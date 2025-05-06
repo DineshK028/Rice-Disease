@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Rice Leaf</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { background: #fafbfc; }
+        .center-card {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 32px 24px 24px 24px;
+        }
+        .drag-area {
+            border: 2px dashed #b2bec3;
+            border-radius: 12px;
+            padding: 32px 0;
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 24px;
+            background: #f8fafb;
+            transition: border-color 0.2s;
+        }
+        .drag-area.dragover {
+            border-color: #43a047;
+            background: #e8f5e9;
+        }
+        .choose-btn {
+            background: #43a047;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            margin-top: 12px;
+        }
+        .analyze-btn {
+            width: 100%;
+            background: #43a047;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 1.1rem;
+            margin-top: 18px;
+        }
+        .progress-area {
+            text-align: center;
+            margin-top: 18px;
+        }
+        .result-area {
+            margin-top: 24px;
+            text-align: center;
+        }
+        .cloud-icon {
+            font-size: 3rem;
+            color: #43a047;
+        }
+        body.dark-mode {
+            background: #181a1b;
+            color: #f1f1f1;
+        }
+        body.dark-mode .center-card {
+            background: #23272b;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+        }
+        body.dark-mode .drag-area {
+            background: #23272b;
+            color: #b2bec3;
+            border-color: #555;
+        }
+        body.dark-mode .drag-area.dragover {
+            background: #263238;
+            border-color: #43a047;
+        }
+        body.dark-mode .choose-btn,
+        body.dark-mode .analyze-btn {
+            background: #388e3c;
+            color: #fff;
+        }
+        body.dark-mode .choose-btn:hover,
+        body.dark-mode .analyze-btn:hover {
+            background: #2e7031;
+        }
+        body.dark-mode .navbar {
+            background: #23272b !important;
+            color: #f1f1f1 !important;
+        }
+        body.dark-mode .navbar .navbar-brand {
+            color: #f1f1f1 !important;
+        }
+        body.dark-mode .btn-outline-success {
+            color: #fff;
+            border-color: #43a047;
+            background: #23272b;
+        }
+        body.dark-mode .btn-outline-success:hover {
+            background: #43a047;
+            color: #fff;
+        }
+        body.dark-mode .btn-outline-secondary {
+            color: #fff;
+            border-color: #888;
+            background: #23272b;
+        }
+        body.dark-mode .btn-outline-secondary:hover {
+            background: #888;
+            color: #23272b;
+        }
+        body.dark-mode .alert-success {
+            background: #1b5e20;
+            color: #fff;
+            border-color: #388e3c;
+        }
+        body.dark-mode .list-group-item {
+            background: #23272b;
+            color: #f1f1f1;
+            border-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4 d-flex justify-content-between align-items-center" style="padding-left: 2rem; padding-right: 2rem; border-radius: 0 0 16px 16px;">
+        <div class="d-flex align-items-center">
+            <span style="color:#43a047; font-size:1.5rem; vertical-align:middle; margin-right: 0.5rem;">●</span>
+            <span class="navbar-brand mb-0 h1" style="font-weight:600; font-size:1.25rem;">Rice Plant Disease Detection</span>
+        </div>
+        <div class="d-flex align-items-center">
+            <button onclick="window.location.href='/'" class="btn btn-outline-success mr-2" style="font-weight:500; border-radius:6px; font-size:1rem;">
+                &#8592; Back
+            </button>
+            <button id="darkModeToggle" class="btn btn-outline-secondary" title="Toggle dark mode">
+                <span id="darkModeIcon">&#9790;</span>
+            </button>
+        </div>
+    </nav>
+    <div class="center-card">
+        <h2 class="text-center font-weight-bold mb-4">Analyze Rice Leaf</h2>
+        <div id="drag-area" class="drag-area">
+            <div class="cloud-icon">&#8682;</div>
+            <div>Drag and drop your image here or</div>
+            <input type="file" id="file-input" accept="image/*" style="display:none;">
+            <button class="choose-btn" id="choose-btn">Choose File</button>
+            <div id="file-name" class="mt-2 text-secondary" style="font-size:0.95rem;"></div>
+        </div>
+        <button class="analyze-btn" id="analyze-btn">Analyze Image</button>
+        <div class="progress-area" id="progress-area" style="display:none;">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="mt-2">Analyzing image...</div>
+        </div>
+        <div class="result-area" id="result-area"></div>
+    </div>
+    <script src="/static/script.js"></script>
+    <script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+
+    function setDarkMode(on) {
+        if (on) {
+            document.body.classList.add('dark-mode');
+            darkModeIcon.textContent = '☀️';
+            localStorage.setItem('darkMode', 'on');
+        } else {
+            document.body.classList.remove('dark-mode');
+            darkModeIcon.textContent = '🌙';
+            localStorage.setItem('darkMode', 'off');
+        }
+    }
+
+    // Load preference
+    if (localStorage.getItem('darkMode') === 'on') {
+        setDarkMode(true);
+    } else {
+        setDarkMode(false);
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+        setDarkMode(!document.body.classList.contains('dark-mode'));
+    });
+    </script>
+</body>
+</html> 
